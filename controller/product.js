@@ -3,8 +3,14 @@ const Product = require('../model/ProductModel');
 
 const addproduct = async (req,res)=>{
    try{
-const add = await Product.create(req.body)
-res.status(201).json({message:"Product Added",result:add})
+    const isFilled = await Product.findOne({name:req.body.name});
+    if(isFilled){
+        res.status(500).json({message: "Product Already Exists"}) 
+    }else{
+        const add = await Product.create(req.body)
+        res.status(201).json({message:"Product Added",result:add})
+    }
+
    } 
    catch(error){
     res.status(500).json({message: error.message})
@@ -16,7 +22,7 @@ res.status(201).json({message:"Product Added",result:add})
 //get all products
 const allProducts = async(req, res) =>{
     try {
-        const product = await Product.find({})
+        const product = await Product.find({}).populate('cat_id');
         res.status(200).json(product);
         
     } catch (error) {
@@ -28,7 +34,7 @@ const allProducts = async(req, res) =>{
 const singleProduct = async (req, res) => {
     try {
       const {id} = req.params;
-      const product = await Product.findById(id)
+      const product = await Product.findById(id).populate('cat_id');
       res.status(200).json(product);
       
   } catch (error) {

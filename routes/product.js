@@ -2,9 +2,9 @@ const express = require('express');
 const router = new express.Router();
 const { addproduct , allProducts,singleProduct,updateProduct,deleteProduct } = require('../controller/product');
 const productMiddleware = require('../middleware/product')
-// router.use(productMiddleware); //for All  route
+router.use(productMiddleware); //for All  route
 // router.get('/product',productMiddleware,allProducts); //for single route
-router.route('/product').get(productMiddleware,allProducts);
+router.route('/product').get(allProducts);
 router.route('/product').post(addproduct);
 router.route('/product/:id').get(singleProduct);
 router.route('/product/:id').patch(updateProduct);

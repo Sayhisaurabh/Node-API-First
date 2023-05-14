@@ -14,8 +14,13 @@ const productSchema = mongoose.Schema(
             type: Number,
             required: true,
         },
-        cat_id: {
+        image: {
             type: String,
+            required: true,
+        },
+        cat_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
             required: true,
         }
     },
